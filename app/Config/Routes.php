@@ -12,5 +12,9 @@ $routes->get('/', 'Home::index');
 
 //     // ... rute API lainnya
 // });
-$routes->resource('books', ['controller' => 'BookController']);
-$routes->get('books/(:num)/(:any)', 'CategoryController::addCategory/$1/$2');
+// $routes->resource('books', ['controller' => 'BookController']);
+// $routes->get('books/(:num)/(:any)', 'CategoryController::addCategory/$1/$2');
+
+// auto routes
+// $routes->setAutoRoute(true);
+$routes->get('books', 'BookController::index');

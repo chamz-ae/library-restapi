@@ -3,15 +3,18 @@
 namespace App\Controllers;
 
 use CodeIgniter\RESTful\ResourceController;
+use App\Controllers\BaseController;
 
 class BookController extends ResourceController
 {
-    protected $db = \Config\Database::connect();
-    protected $format = 'json';
+    protected $db;
+    protected $format;
 
     public function __construct()
     {
+        
         $this->db = \Config\Database::connect();
+
     }
 
     public function index()
@@ -19,7 +22,7 @@ class BookController extends ResourceController
         $builder = $this->db->table('book');
         $query = $builder->get();
         $books = $query->getResultArray();
-        return $this->respond($books);
+        return ($books);
     }
 
     public function show($id = null)
@@ -28,9 +31,9 @@ class BookController extends ResourceController
         $query = $builder->getWhere(['id' => $id]);
         $book = $query->getRowArray();
         if ($book) {
-            return $this->respond($book);
+            return ($book);
         } else {
-            return $this->failNotFound('Book not found');
+            return ('Book not found');
         }
     }
 
@@ -41,31 +44,31 @@ class BookController extends ResourceController
         // Validate input data
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'title' => 'required',
-            'category_id' => 'required|is_not_unique[category.id]'
+            'book_title' => 'required',
+            'publisher' => 'required'
         ], [
-            'category_id' => [
-                'is_not_unique' => 'The category_id field must contain a previously existing value in the database.'
+            'book_title' => [
+                'is_not_unique' => 'The book field must contain a previously existing value in the database.'
             ]
         ]);
 
         if (!$validation->run($data)) {
-            return $this->failValidationErrors($validation->getErrors());
+            return ($validation->getErrors());
         }
 
         // Prepare data for insertion
         $bookData = [
-            'title' => $data['title'],
-            'category_id' => $data['category_id']
+            'book_title' => $data['book_title'],
+            'publisher' => $data['publisher']
         ];
 
         // Insert book using Query Builder
         $builder = $this->db->table('book');
         if ($builder->insert($bookData)) {
             $bookData['id'] = $this->db->insertID(); // Get the inserted book ID
-            return $this->respondCreated($bookData);
+            return ($bookData);
         } else {
-            return $this->fail('Failed to create book');
+            return ('Failed to create book');
         }
     }
 
