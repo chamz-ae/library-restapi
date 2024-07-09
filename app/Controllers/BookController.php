@@ -6,6 +6,7 @@ use CodeIgniter\RESTful\ResourceController;
 
 class BookController extends ResourceController
 {
+    protected $db = \Config\Database::connect();
     protected $format = 'json';
 
     public function __construct()

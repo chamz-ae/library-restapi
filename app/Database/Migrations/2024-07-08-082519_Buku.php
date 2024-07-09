@@ -16,7 +16,7 @@ class Buku extends Migration
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ],
-            'judul' => [
+            'title-book' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255
             ],
@@ -27,17 +27,6 @@ class Buku extends Migration
             'penerbit' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255
-            ],
-            'tahun_terbit' => [
-                'type' => 'INT',
-                'constraint' => 4
-            ],
-            'jumlah_halaman' => [
-                'type' => 'INT',
-                'constraint' => 11
-            ],
-            'deskripsi' => [
-                'type' => 'TEXT'
             ],
             'created_at' => [
                 'type' => 'TIMESTAMP',
@@ -54,7 +43,7 @@ class Buku extends Migration
 
     public function down()
     {
-        $this->forge->dropTable('buku');
+        $this->forge->dropTable('book');
     }
 }
 
